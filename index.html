@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html> 
+<head>
+    <meta charset="utf-8">
+    <title>Substitution Cipher</title>
+</head>
+<body>
+    <center>
+    <h2> CryptoCoder</h2>
+    
+        <b>
+            Type in a message and click encode:<br>
+
+            <textarea class="textAreas" id="textId"></textarea><br>
+
+            Result: <br>
+
+            <textarea class="textAreas" id="resultId" readonly=""></textarea> 
+            <br></b>
+        </div>
+
+       
+            <button class="arrowBtn" onclick="decreaseNumber()">-</button>
+            <span id="numberDisplay">1</span></b>
+            <button class="arrowBtn" onclick="increaseNumber()">+</button>
+
+        </div>
+
+        <button id="EncodeBtnId" onclick="encode()" class="btn">Encrypt</button>
+        <button id="DecodeBtnId" onclick="decode()" class="btn">Decrypt</button>
+        <button id="ClearBtnId" onclick="clearText()" class="btn">Clear</button>
+    </div>    
+
+    <style> 
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #62d7f5; 
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #e21313;
+            font-size: 48px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #f70c0c;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            resize: none;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #f7f7f7;
+            color: #333;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #ffffff;
+            background-color: #ff6b6b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(240, 9, 9, 0.2);
+        }
+
+        .delta-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .delta-label {
+            color: #e01616;
+            font-size: 24px;
+            margin-right: 20px;
+        }
+
+        .delta-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-right: 20px;
+        }
+
+        .arrow-icon {
+            font-size: 30px;
+            color: #ee0c0c;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .arrow-icon:hover {
+            transform: scale(1.2);
+        }
+    </style>
+
+    <script> 
+        var delta = 7;
+
+        clearText = function(){
+            var textArea = document.getElementById("textId");
+            var resultArea = document.getElementById("resultId");
+
+            textArea.value = '';
+            resultArea.value = '';
+        };
+
+        encode = function(){
+            transform(delta)
+        };
+
+        decode = function(){
+            transform(-delta)
+        };
+
+        transform = function(delta){
+            var textArea = document.getElementById("textId");
+            var resultArea = document.getElementById("resultId");
+
+            var textArray = textArea.value.split('');
+            var result =  "";
+
+            for(var i=0; i < textArray.length; i++){
+                var x = textArray[i];
+                var code = textArray[i].charCodeAt(0);
+                var min  = 33; //inclusive
+                var max = 126; //inclusive
+                var range = max - min + 1;
+
+                if(code >= min && code <= max){
+                    var t = ((code - min) + delta) % range;
+                    if( t < 0){
+                        t += range;
+                    }
+
+                    t += min;
+
+                    x = String.fromCharCode(t);
+                }
+
+                result += x;
+            }
+
+            resultArea.value = result;
+        };
+
+        increaseNumber = function() {
+            delta++;
+            document.getElementById("numberDisplay").textContent = delta.toString();
+        }
+
+        decreaseNumber = function() {
+            delta--;
+            document.getElementById("numberDisplay").textContent = delta.toString();
+        }
+    </script>
+</body>
+</html>
